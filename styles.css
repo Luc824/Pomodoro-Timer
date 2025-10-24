@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: rgb(0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+    color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 2em;
+    padding: 4em 3em;
+}
+
+.title {
+    font-size: 3em;
+}
+
+hr {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    height: 5px;
+    border-radius: 1em;
+    border: none;
+}
+
+.timer {
+    font-size: 6em;
+    font-weight: 700;
+}
+
+.button-wrapper {
+    display: flex;
+    gap: 1em;
+}
+
+button {
+    font-size: 1.5em;
+    font-weight: 800;
+    padding: 0.4em 1.0em;
+    border-radius: 1em;
+    border: none;
+    color: black;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+button:hover {
+    transform: translateY(-4px);
+}
+
+#start {
+    background-color: rgb(86, 230, 14);
+}
+
+#stop {
+    background-color: rgb(246, 25, 25);
+}
+
+#reset {
+    background-color: rgb(24, 137, 242);
+}
+
+
+/* Popup container */
+.popup {
+    position: relative;
+    display: inline-block;
+}
+
+/* The actual popup (appears on top) */
+.popup .popup-text {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popup-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+  visibility: visible;
+}
