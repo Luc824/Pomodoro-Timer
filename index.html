@@ -15,13 +15,13 @@
         <div class="popup">
             <span class=" popup-text" id="custom-popup">
                 <h3>Set Custom Times (in minutes)</h3>
-                <div>
-                    <label for="pomodoro">Pomodoro</label>
-                    <input type="number" id="pomodoro" name="pomodoro" value="25">
+                <div id="inputs">
+                    <label for="work">Work</label>
+                    <input type="number" id="work-time" name="work-time" value="25" min="1" max="1000">
                     <label for="short-break">Short Break</label>
-                    <input type="number" id="short-break" name="short-break" value="5">
+                    <input type="number" id="short-break-time" name="short-break-time" value="5" min="1" max="1000">
                     <label for="long-break">Long Break</label>
-                    <input type="number" id="long-break" name="long-break" value="15">
+                    <input type="number" id="long-break-time" name="long-break-time" value="15" min="1" max="1000">
                 </div>
                 <button id="save">Save</button>
             </span>
@@ -35,7 +35,7 @@
             <button id="l-break">Long Break</button>
         </div>
 
-        <p class="timer" id="timer">Do what is required</p>
+        <p class="timer" id="timer">00:00</p>
 
         <div class="button-wrapper">
             <button id="start">Start</button>

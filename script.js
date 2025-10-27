@@ -3,91 +3,147 @@ const start = document.getElementById('start');
 const stop = document.getElementById('stop');
 const reset = document.getElementById('reset');
 
-const timer = document.getElementById('timer');
+const timer = document.getElementById('timer'); 
 
-const work = document.getElementById('work');
-const sBreak = document.getElementById('s-break');
-const lBreak = document.getElementById('l-break');
+const work = document.getElementById('work'); // work button
+const sBreak = document.getElementById('s-break'); // short break button
+const lBreak = document.getElementById('l-break'); // long break button
 
-const custom = document.getElementById('custom');
-const popup = document.getElementById('custom-popup');
-const save = document.getElementById('save');
+const custom = document.getElementById('custom'); // custom timer button
+const popup = document.getElementById('custom-popup'); // popup to set times
+const save = document.getElementById('save'); // popup save button
 
+const workNumberValueInput = document.getElementById('work-time');
+const shortBreakNumberValueInput = document.getElementById('short-break-time');
+const longBreakNumberValueInput = document.getElementById('long-break-time');
 
 let timeLeft;
 let interval;
+let currentMode;
 
-const customTimer = () => {
+const blockInvalidKeys = (input) => {
+    input.addEventListener("keydown", (e => {
+        if (e.key === "-" || e.key === "e" || e.key === '.') {
+            e.preventDefault();
+        }
+    }));
+};
 
-}
+blockInvalidKeys(workNumberValueInput);
+blockInvalidKeys(shortBreakNumberValueInput);
+blockInvalidKeys(longBreakNumberValueInput);
 
-const startWork = () => {
-    timeLeft = 1500; // 1500s is 25min
+const getValidTime = (input) => {
+    let minutes = Math.max(1, Number(input.value) || 1); // avoids negative number inputs and we fall back to 1 if NaN or ""
+
+    if (minutes > 1000) {
+        minutes = 1000;
+    }
+
+    input.value = minutes;
+
+    return minutes * 60;
+};
+
+const setTimer = (mode) => {
+    stopTimer();
+
+    if (mode === "work") {
+        timeLeft = getValidTime(workNumberValueInput);
+    } else if (mode === "shortBreak") {
+        timeLeft = getValidTime(shortBreakNumberValueInput);
+    } else if (mode === "longBreak") {
+        timeLeft = getValidTime(longBreakNumberValueInput);
+    }
+
+    currentMode = mode;
     updateTimer();
-    work.style.backgroundColor = "gray";
-    sBreak.style.backgroundColor = "white";
-    lBreak.style.backgroundColor = "white";
-}
-
-const startShortBreak = () => {
-    timeLeft = 300; // 300s is 5min
-    updateTimer();
-    sBreak.style.backgroundColor = "gray";
-    work.style.backgroundColor = "white";
-    lBreak.style.backgroundColor = "white";
-}
-
-const startLongBreak = () => {
-    timeLeft = 900; // 900s is 15min
-    updateTimer();
-    lBreak.style.backgroundColor = "gray";
-    work.style.backgroundColor = "white";
-    sBreak.style.backgroundColor = "white";
-}
+};
 
 const updateTimer = () => {
+
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
 
-    timer.innerHTML = 
-    `${minutes.toString().padStart(2,"0")}:${seconds.toString().padStart(2,"0")}`; // .padStart(2,"0") makes sure the format is 00:00 and because it only works on strings I added .toString()
-}
+    timer.textContent =
+        minutes.toString().padStart(2,"0") + ":" + // .padStart(2,"0") makes sure the format is 00:00 and because it only works on strings I added .toString()
+        seconds.toString().padStart(2,"0");
+};
+    
 
 const startTimer = () => {
+    if (interval) return;
+
     interval = setInterval(() => {
         timeLeft--;
         updateTimer();
 
         if(timeLeft === 0) {
             clearInterval(interval);
+            interval = null;
             alert("Time's up!");
-            timeLeft = 1500;
+            setTimer(currentMode);
             updateTimer();
-        }
+        };
     }, 1000);
-}
+};
 
-const stopTimer = () => clearInterval(interval);
+const stopTimer = () => {
+    clearInterval(interval);
+    interval = null;
+};
 
 const resetTimer = () => {
-    clearInterval(interval);
-    timeLeft = 1500;
-    updateTimer();
-}
+    stopTimer();
+    setTimer(currentMode);
+};
 
-work.addEventListener("click", startWork);
+const highlightMode = (mode) => {
+    work.style.backgroundColor = mode === "work" ? "gray" : "white";
+    sBreak.style.backgroundColor = mode === "shortBreak" ? "gray" : "white";
+    lBreak.style.backgroundColor = mode === "longBreak" ? "gray" : "white";
+};
 
-sBreak.addEventListener("click", startShortBreak);
+work.addEventListener("click", () => {
+    setTimer("work");
+    highlightMode("work");
+});
 
-lBreak.addEventListener("click", startLongBreak);
+sBreak.addEventListener("click", () => {
+    setTimer("shortBreak");
+    highlightMode("shortBreak");
+});
 
-start.addEventListener("click", startTimer);
+lBreak.addEventListener("click", () => {
+    setTimer("longBreak");
+    highlightMode("longBreak");
+});
 
-stop.addEventListener("click", stopTimer);
+start.addEventListener("click", () => {
+    if (!currentMode) {
+        alert("Please pick Work, Short Break or Long Break first");
+        return;
+    }
+    startTimer();
+});
 
-reset.addEventListener("click", resetTimer);
+stop.addEventListener("click", () => {
+    if (!currentMode) {
+        alert("Please pick Work, Short Break or Long Break first");
+        return;
+    }
+    stopTimer();
+});
 
-// popup 
+reset.addEventListener("click", () => {
+    if (!currentMode) {
+        alert("Please pick Work, Short Break or Long Break first");
+        return;
+    }
+    resetTimer();
+});
+
+// popup
 
 custom.addEventListener("click", function() {
     popup.classList.toggle("show");
@@ -96,5 +152,8 @@ custom.addEventListener("click", function() {
 save.addEventListener("click", function() {
     popup.classList.toggle("show");
 
-    updateTimer();
+    if (currentMode) {
+        setTimer(currentMode);
+        highlightMode(currentMode);
+    }
 });

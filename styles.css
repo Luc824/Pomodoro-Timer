@@ -79,22 +79,23 @@ button:hover {
 .popup {
     position: relative;
     display: inline-block;
+    top: -200px;
 }
 
 /* The actual popup (appears on top) */
 .popup .popup-text {
   visibility: hidden;
-  width: 160px;
+  width: 260px;
+  height: 260px;
   background-color: #555;
   color: #fff;
   text-align: center;
   border-radius: 6px;
-  padding: 8px 0;
+  padding: 8px 8px;
   position: absolute;
   z-index: 1;
-  bottom: 125%;
   left: 50%;
-  margin-left: -80px;
+  margin-left: -120px;
 }
 
 /* Popup arrow */
@@ -112,4 +113,15 @@ button:hover {
 /* Toggle this class when clicking on the popup container (hide and show the popup) */
 .popup .show {
   visibility: visible;
+}
+
+#inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    margin-bottom: 10px;
+    width: 100px;
 }
