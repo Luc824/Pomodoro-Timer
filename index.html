@@ -16,16 +16,18 @@
             <span class=" popup-text" id="custom-popup">
                 <h3>Set Custom Times (in minutes)</h3>
                 <div id="inputs">
-                    <label for="work">Work</label>
+                    <label for="work-time">Work</label>
                     <input type="number" id="work-time" name="work-time" value="25" min="1" max="1000">
-                    <label for="short-break">Short Break</label>
+                    <label for="short-break-time">Short Break</label>
                     <input type="number" id="short-break-time" name="short-break-time" value="5" min="1" max="1000">
-                    <label for="long-break">Long Break</label>
+                    <label for="long-break-time">Long Break</label>
                     <input type="number" id="long-break-time" name="long-break-time" value="15" min="1" max="1000">
                 </div>
                 <button id="save">Save</button>
             </span>
         </div>
+
+        <div id="flash"></div>
         
         <hr>
 
@@ -35,7 +37,7 @@
             <button id="l-break">Long Break</button>
         </div>
 
-        <p class="timer" id="timer">00:00</p>
+        <p class="timer" id="timer">Select Mode</p>
 
         <div class="button-wrapper">
             <button id="start">Start</button>
@@ -45,6 +47,7 @@
 
     </div>
 
+    <audio src="assets/audio/level-up.mp3" id="sound" preload="auto"></audio>
     <script src="script.js"></script>
 </body>
 </html>

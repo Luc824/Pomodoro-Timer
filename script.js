@@ -17,6 +17,9 @@ const workNumberValueInput = document.getElementById('work-time');
 const shortBreakNumberValueInput = document.getElementById('short-break-time');
 const longBreakNumberValueInput = document.getElementById('long-break-time');
 
+const sound = document.getElementById('sound');
+const flash = document.getElementById('flash');
+
 let timeLeft;
 let interval;
 let currentMode;
@@ -78,10 +81,15 @@ const startTimer = () => {
         timeLeft--;
         updateTimer();
 
-        if(timeLeft === 0) {
+        if(timeLeft <= 0) {
             clearInterval(interval);
             interval = null;
-            alert("Time's up!");
+
+            sound.currentTime = 0; // rewinds to start of sound incase it was palyed before
+            sound.play();
+
+            flashScreen();
+
             setTimer(currentMode);
             updateTimer();
         };
@@ -103,6 +111,14 @@ const highlightMode = (mode) => {
     sBreak.style.backgroundColor = mode === "shortBreak" ? "gray" : "white";
     lBreak.style.backgroundColor = mode === "longBreak" ? "gray" : "white";
 };
+
+const flashScreen = () => {
+    flash.classList.add('active');
+
+    setTimeout(() => {
+        flash.classList.remove('active');
+    }, 300);
+}
 
 work.addEventListener("click", () => {
     setTimer("work");
